@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+from labyrinth_game.constants import ROOMS
+import labyrinth_game.player_actions as player_actions
+import labyrinth_game.utils as utils
+
 
 game_state = {
         'player_inventory': [], # Инвентарь игрока
