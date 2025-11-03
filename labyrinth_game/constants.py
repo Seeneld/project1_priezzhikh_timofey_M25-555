@@ -19,11 +19,11 @@ ROOMS = {
     },
     'library': {
           'description': 'Пыльная библиотека. На полках старые свитки. Где-то здесь может быть ключ от сокровищницы.',
-          'exits': {'east': 'hall', 'north': 'armory'},
+          'exits': {'east': 'hall', 'north': 'armory', 'south': 'kitchen'},
           'items': ['ancient_book'],
           'puzzle': ('В одном свитке загадка: "Что растет, когда его съедают?" (ответ одно слово)', 'резонанс')  
     },
-        'armory': {
+    'armory': {
           'description': 'Старая оружейная комната. На стене висит меч, рядом — небольшая бронзовая шкатулка.',
           'exits': {'south': 'library'},
           'items': ['sword', 'bronze_box'],
@@ -37,14 +37,14 @@ ROOMS = {
     },
      'observatory': {
         'description': 'Звёздная обсерватория под куполом. На столе лежит звёздная карта.',
-        'exits': {'south': 'armory', 'east': 'kitcen'},
+        'exits': {'south': 'armory', 'east': 'kitchen'},
         'items': ['star_map'],
         'puzzle': ('На карте вы видите надпись: "Сколько планет в Солнечной системе?" (ответ цифрой)', '8')
     },
     'kitchen': {
         'description': 'Отвратно пахнущая кухня. На столе лежит ржавый нож, рядом с ним заплесневелая головка сыра',
-        'exits': {'west': 'library'},
-        'items': ['rusted_kithcen_knife', 'cheese_wheel'],
+        'exits': {'north': 'library', 'west': 'observatory'},
+        'items': ['rusted_kitchen_knife', 'cheese_wheel'],
         'puzzle': None
     }
 }
