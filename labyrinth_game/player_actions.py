@@ -1,3 +1,6 @@
+"""
+Показ инвентаря игрового персонажа
+"""
 def show_inventory(game_state):
     inventory = game_state['player_inventory']
     if inventory:
@@ -6,6 +9,9 @@ def show_inventory(game_state):
         print("Ваш инвентарь пуст.")
 
 
+"""
+Получение ввода игрока
+"""
 def get_input(prompt="> "):
     try:
         return input(prompt).strip().lower()
@@ -13,7 +19,9 @@ def get_input(prompt="> "):
         print("\nВыход из игры.")
         return "quit"
 
-
+"""
+Перемещение игрового персонажа
+"""
 def move_player(game_state, direction):
     from labyrinth_game.constants import ROOMS
     from labyrinth_game.utils import describe_current_room
@@ -22,14 +30,35 @@ def move_player(game_state, direction):
     room_data = ROOMS[current_room]
 
     if direction in room_data['exits']:
-        game_state['current_room'] = room_data['exits'][direction]
-        game_state['steps_taken'] += 1
-        print(f"Вы идете на {direction}.")
-        describe_current_room(game_state)
+        next_room = room_data['exits'][direction]
+
+        # Проверка на treasure_room
+        if next_room == 'treasure_room':
+            if 'rusty_key' in game_state['player_inventory']:
+                print("Вы используете найденный ключ, чтобы открыть путь в комнату сокровищ.")
+                game_state['current_room'] = next_room
+                game_state['steps_taken'] += 1
+                describe_current_room(game_state)
+                
+                from labyrinth_game.utils import random_event
+                random_event(game_state)
+            else:
+                print("Дверь заперта. Нужен ключ, чтобы пройти дальше.")
+        else:
+            game_state['current_room'] = next_room
+            game_state['steps_taken'] += 1
+            print(f"Вы идете на {direction}.")
+            describe_current_room(game_state)
+            
+            from labyrinth_game.utils import random_event
+            random_event(game_state)
     else:
         print("Нельзя пойти в этом направлении.")
 
 
+"""
+Подбор предмета игровым персонажем
+"""
 def take_item(game_state, item_name):
     from labyrinth_game.constants import ROOMS
 
@@ -47,7 +76,9 @@ def take_item(game_state, item_name):
     else:
         print("Такого предмета здесь нет.")
 
-
+"""
+Использование предмета игровым персонажем
+"""
 def use_item(game_state, item_name):
     from labyrinth_game.constants import ROOMS
 

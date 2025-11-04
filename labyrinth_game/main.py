@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from labyrinth_game.constants import ROOMS
+from labyrinth_game.constants import ROOMS, COMMANDS
 from labyrinth_game.utils import describe_current_room, solve_puzzle, attempt_open_treasure, show_help
 from labyrinth_game.player_actions import (
     show_inventory,
@@ -10,14 +10,18 @@ from labyrinth_game.player_actions import (
     use_item
 )
 
+"""
+Обработчик команд пользователя
+"""
+def process_command(game_state, command, COMMANDS):
+    if command in ['north', 'south', 'east', 'west']:
+        move_player(game_state, command)
+        return
 
-def process_command(game_state, command):
-    """
-    Обрабатывает команду пользователя.
-    """
     parts = command.split(' ', 1)
     action = parts[0]
 
+    # Доступные команды и их выполнение
     match action:
         case 'quit':
             game_state['game_over'] = True
@@ -33,7 +37,7 @@ def process_command(game_state, command):
             return
 
         case 'help':
-            show_help()
+            show_help(COMMANDS)
             return
 
         case 'steps':
@@ -41,10 +45,12 @@ def process_command(game_state, command):
             return
 
         case 'solve':
-            solve_puzzle(game_state)
-            # Если игрок в treasure_room, то пытаемся открыть сундук
             if game_state['current_room'] == 'treasure_room':
                 attempt_open_treasure(game_state)
+            else:
+                solve_puzzle(game_state)
+                if game_state['current_room'] == 'treasure_room':
+                    attempt_open_treasure(game_state)
             return
 
         case 'go' | 'take' | 'use':
@@ -67,7 +73,6 @@ def process_command(game_state, command):
 
 
 def main():
-    # Состояние игры
     game_state = {
         'player_inventory': [], # Инвентарь игрока
         'current_room': 'entrance', # Текущая комната
@@ -81,7 +86,7 @@ def main():
     # Основной игровой цикл
     while not game_state['game_over']:
         command = get_input()
-        process_command(game_state, command)
+        process_command(game_state, command, COMMANDS)
 
     print("Игра окончена.")
 
