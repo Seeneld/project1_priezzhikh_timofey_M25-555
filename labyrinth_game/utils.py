@@ -1,6 +1,7 @@
+import math
+
 from labyrinth_game.constants import ROOMS
 from labyrinth_game.player_actions import get_input
-import math
 
 """
 Вывод описания текущеей комнаты
@@ -25,7 +26,8 @@ def describe_current_room(game_state):
         print("Выходы: нет")
 
     if room['puzzle'] is not None:
-        print("Кажется, здесь есть загадка (используйте команду solve).")
+        print("Кажется, здесь есть загадка"
+        " (используйте команду solve).")
     print()
 
 
@@ -53,7 +55,8 @@ def solve_puzzle(game_state):
     if user_answer in correct_variants:
         print("Правильно! Вы получили награду.")
         room['puzzle'] = None
-        if current_room in ['hall'] and 'treasure_key' not in game_state['player_inventory']:
+        if (current_room in ['hall'] 
+            and 'treasure_key' not in game_state['player_inventory']):
             game_state['player_inventory'].append('treasure_key')
             print("Вы получили ключ от сокровищницы!")
         else:
@@ -161,7 +164,8 @@ def random_event(game_state):
             room['items'].append('coin')
             print("Вы нашли монетку на полу!")
         else:
-            print("Вы слышите звук, как будто что-то звенит, но ничего не находите.")
+            print("Вы слышите звук, как будто что-то звенит," \
+            " но ничего не находите.")
     elif event_type == 1:
         # Сценарий 2: Испуг
         print("Вы слышите странный шорох...")
@@ -170,8 +174,9 @@ def random_event(game_state):
     elif event_type == 2:
         # Сценарий 3: Срабатывание ловушки
         current_room = game_state['current_room']
-        if current_room == 'trap_room' and 'torch' not in game_state['player_inventory']:
+        if current_room == 'trap_room' & 'torch' not in game_state['player_inventory']:
             print("Вы зашли в тёмную комнату и наткнулись на ловушку!")
             trigger_trap(game_state)
         else:
-            print("Вы освещаете комнату факелом и находите ловушку. Двигаясь осторожно, вам удалось её избежать!")
+            print("Вы освещаете комнату факелом и находите ловушку." \
+                " Двигаясь осторожно, вам удалось её избежать!")

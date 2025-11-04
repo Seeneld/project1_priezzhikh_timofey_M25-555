@@ -35,7 +35,8 @@ def move_player(game_state, direction):
         # Проверка на treasure_room
         if next_room == 'treasure_room':
             if 'rusty_key' in game_state['player_inventory']:
-                print("Вы используете найденный ключ, чтобы открыть путь в комнату сокровищ.")
+                print("Вы используете найденный ключ, " \
+                "чтобы открыть путь в комнату сокровищ.")
                 game_state['current_room'] = next_room
                 game_state['steps_taken'] += 1
                 describe_current_room(game_state)
@@ -80,7 +81,6 @@ def take_item(game_state, item_name):
 Использование предмета игровым персонажем
 """
 def use_item(game_state, item_name):
-    from labyrinth_game.constants import ROOMS
 
     if item_name not in game_state['player_inventory']:
         print("У вас нет такого предмета.")
